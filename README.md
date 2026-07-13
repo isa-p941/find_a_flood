@@ -1,5 +1,26 @@
 ## Description
 Use this script to find information on potentially flooding rivers in your area.
+A small demonstration of my CompEng ability, showing the following skills:
+
+#### Core software engineering
+* Python CLI design
+* Modular architecture: separation of concerns across four modules: parse (ingest), database (persistence), distance (geospatial logic), and find_a_flood (orchestration/CLI). Each has a single clear responsibility.
+* Docstrings and self-documentation: consistent Args/Returns docstrings on every function, plus author attribution headers
+#### Data engineering 
+* REST API consumption with robust HTTP handling, script queries NOAA's NWPS ArcGIS feature service
+* JSON/GeoJSON parsing and normalization: grouping raw gauge features by flood category into a clean nested structure
+* Local caching
+#### Databases
+* SQLite (sqlite3): basic operations - creating tables, inserting, and querying (database.py)
+* SQL-injection awareness: parameterized (?) queries for values, plus a scrub_table_name() allowlist sanitizer for dynamic table names. 
+#### Geospatial / algorithms
+* Haversine great-circle distance: implemented from math primitives (sin/cos/atan2/radians) rather than a library, with unit conversion km→mi (distance.py:23)
+* Geocoding with geopy/Nominatim to turn a city+state into coordinates
+#### DevOps
+* Bash scripting: venv_creator.sh with getopts, a usage function, stderr redirection, and meaningful exit codes (venv_creator.sh)
+* PowerShell scripting with setup.ps1 with $ErrorActionPreference, path handling, and the py launcher (setup.ps1)
+* Dependency hygiene: pinned requirements.txt, virtualenv isolation (and the README explicitly warns against polluting the global environment)
+* Git / version control
 
 ## Prerequisites
 Prerequisites are installed into a virtual environment, don't mess up your own
@@ -10,7 +31,7 @@ repository. I wrote everything with that in mind.
 Create a virtual environment (e.g. `python -m venv venv`) and install
 `requirements.txt` into it. River gauge data is downloaded automatically by
 `find_a_flood.py` on first run (or with `--refresh_data`) from NOAA's National
-Water Prediction Service.
+Water Prediction Service. You can run `venv_createor.sh` to streamline this.
 
 ### Windows
 ```
