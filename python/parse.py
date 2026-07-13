@@ -62,7 +62,7 @@ def import_riverobs(resync=False):
         return json.load(river_file)
 
 
-def clean_xml_data(features):
+def group_by_category(features):
     """ Group gauge features by flood category
     Args:
         features - the list of GeoJSON feature dicts (from import_riverobs)
@@ -73,12 +73,15 @@ def clean_xml_data(features):
     for feature in features:
         props = feature["properties"]
         category = props["status"]
-        river_name = props["waterbody"] or props["gaugelid"]
+        waterbody = props["waterbody"]
+        gaugelid = props["gaugelid"]
+        river_name = waterbody or gaugelid
         coordinates = "{0}, {1}".format(props["latitude"], props["longitude"])
+        description = "gauge {0}".format(gaugelid)
 
         clean_river_data.setdefault(category, {})
         clean_river_data[category][river_name] = {
-            "description": "it's a river",
+            "description": description,
             "coordinates": coordinates,
         }
     return clean_river_data

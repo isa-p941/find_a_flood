@@ -22,9 +22,10 @@ def main(args):
 
     if rivers:
         for distance_float, river_info in sorted(rivers.items()):
-            river_info_string = ("{0} is about {1} miles away from {2}, {3} and is in the "
-                                 "{4} category of flooding."
-                                 "\n{0}'s coordinates are {5}.").format(river_info[0],
+            river_info_string = ("{0} ({1}) is about {2} miles away from {3}, {4} and is in "
+                                 "the {5} category of flooding."
+                                 "\n{0}'s coordinates are {6}.").format(river_info[0],
+                                                                     river_info[1],
                                                                      round(distance_float),
                                                                      args["city"], args["state"],
                                                                      category, river_info[2])
