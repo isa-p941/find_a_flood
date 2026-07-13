@@ -31,7 +31,7 @@ def scrub_table_name(table_name):
 
 
 def init_river_db(resync=False):
-    """ Create and populate the river database
+    """ Create and populate the river database, wipe existing if needed
     Args:
         resync - whether or not to re-download data
                  THIS HAS SIGNIFICANT PERFORMANCE EFFECTS
@@ -41,15 +41,16 @@ def init_river_db(resync=False):
     """
     # parse raw data
     raw_river_data = parse.import_riverobs(resync)
-    river_data = parse.clean_xml_data(raw_river_data)
+    river_data = parse.group_by_category(raw_river_data)
 
     # init blank db and cursor
     connection, db_cursor = create_db_cursor()
 
-    # build and populate tables
+    # build and populate tables, dropping any existing table first
     for category, river_info in river_data.items():
         c_cat = scrub_table_name(category)
-        db_cursor.execute('''CREATE TABLE IF NOT EXISTS {0}(RIVER TEXT,
+        db_cursor.execute('''DROP TABLE IF EXISTS {0}'''.format(c_cat))
+        db_cursor.execute('''CREATE TABLE {0}(RIVER TEXT,
                              DESCRIPTION TEXT,COORD TEXT)'''.format(c_cat))
         for name, info in river_info.items():
             clean_info = (name, info["description"], info["coordinates"])
