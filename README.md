@@ -25,7 +25,8 @@ A small demonstration of my CompEng ability, showing the following skills:
 ## Prerequisites
 Prerequisites are installed into a virtual environment, don't mess up your own
 environment to run this! Run everything from the python/ directory of this
-repository. I wrote everything with that in mind.
+repository. I wrote everything with that in mind. Using this code in another
+manner may cause problems, particularly with dependency resolution.
 
 ### Linux
 Create a virtual environment (e.g. `python -m venv venv`) and install
